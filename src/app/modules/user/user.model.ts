@@ -20,7 +20,6 @@ const userSchema = new Schema<Tuser>(
     },
     password: {
       type: String,
-      select: 0,
     },
   },
   {

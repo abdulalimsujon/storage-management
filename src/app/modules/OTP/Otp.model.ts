@@ -11,7 +11,6 @@ const userSchema = new Schema<TOtp>(
         message: '{VALUE} is not valid email',
       },
       required: true,
-      unique: true,
     },
     otp: {
       type: Number,
@@ -29,4 +28,4 @@ const userSchema = new Schema<TOtp>(
   },
 );
 
-export const Otp = model<TOtp>('OPT', userSchema);
+export const Otp = model<TOtp>('OTP', userSchema);

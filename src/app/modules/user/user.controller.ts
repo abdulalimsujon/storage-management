@@ -1,3 +1,4 @@
+import config from '../../config';
 import catchAsync from '../../utilities/catchAsync';
 import sendResponse from '../../utilities/sendResponse/sendResponse';
 import { userServices } from './user.service';
@@ -10,6 +11,27 @@ const createUser = catchAsync(async (req, res) => {
     success: true,
     statusCode: httpStatus.CREATED,
     message: 'User registered successfully',
+    data: result,
+  });
+});
+const userlogin = catchAsync(async (req, res) => {
+  const result = await userServices.userLogin(req.body);
+  const { email, token } = result;
+
+  res.cookie(
+    'refreshToken',
+    { email, token: token },
+    {
+      secure: config.NODE_ENV === 'production',
+      httpOnly: true,
+      sameSite: 'none',
+      maxAge: 1000 * 60 * 60 * 24 * 365,
+    },
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User log in successfully',
     data: result,
   });
 });
@@ -28,4 +50,5 @@ const forgetPassword = catchAsync(async (req, res) => {
 export const usercontroller = {
   createUser,
   forgetPassword,
+  userlogin,
 };
