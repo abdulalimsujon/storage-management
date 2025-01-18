@@ -14,7 +14,7 @@ const moduleRoutes = [
   },
 
   {
-    path: '/resources/stats',
+    path: '/resources/',
     route: resourcesRouter,
   },
 ];

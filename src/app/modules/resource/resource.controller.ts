@@ -36,6 +36,18 @@ const createResources = catchAsync(async (req, res) => {
   });
 });
 
+const getAllResource = catchAsync(async (req, res) => {
+  const result = await resourceServices.getAllResourceFromDb();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'All resources retrived  successfully',
+    data: result,
+  });
+});
+
 export const resourceController = {
   createResources,
+  getAllResource,
 };

@@ -14,7 +14,7 @@ const ResourceSchema: Schema<IResource> = new Schema({
 });
 
 const FolderSchema = new Schema<IFolder>({
-  folderName: { type: String, required: true }, // Folder name field
+  folderName: { type: String, required: true },
   data: { type: [ResourceSchema], required: true },
 });
 

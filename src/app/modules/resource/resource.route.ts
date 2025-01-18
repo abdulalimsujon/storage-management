@@ -39,5 +39,6 @@ router.post(
   upload.array('files', 10),
   resourceController.createResources,
 );
+router.get('/', resourceController.getAllResource);
 
 export const resourcesRouter = router;
