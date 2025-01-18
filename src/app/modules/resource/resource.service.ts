@@ -1,10 +1,9 @@
-import { IResource } from './resource.interface';
-import { Resource } from './resource.model';
+import { Folder } from './resource.model';
 
-const createResourcesIntoDb = async (resourceData: IResource) => {
-  const resource = new Resource(resourceData);
-  await resource.save();
-  return resource;
+const createResourcesIntoDb = async (resourceData) => {
+  const folder = new Folder(resourceData);
+  await folder.save();
+  return folder;
 };
 
 export const resourceServices = {

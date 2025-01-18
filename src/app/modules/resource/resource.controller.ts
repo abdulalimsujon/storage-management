@@ -1,42 +1,37 @@
 import catchAsync from '../../utilities/catchAsync';
 import sendResponse from '../../utilities/sendResponse/sendResponse';
-import { resourceServices } from './resource.service';
 import httpStatus from 'http-status';
+import { resourceServices } from './resource.service';
 
 // Mapping MIME types to resource types
 const mimeTypeToResourceType: Record<string, string> = {
   'image/jpeg': 'image',
   'image/png': 'image',
   'application/pdf': 'pdf',
-  'text/plain': 'document', // Added support for .txt files
+  'text/plain': 'document',
 };
 
 const createResources = catchAsync(async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: 'File is required.' });
-  }
+  const parsedData = JSON.parse(req.body.data);
+  const standardObject = Object.assign({}, parsedData);
+  const resource = req.files?.map((data) => ({
+    name: data.originalname,
+    type: mimeTypeToResourceType[data.mimetype] || 'unknown',
+    path: data.path,
+    size: data.size,
+  }));
 
-  const { originalname, mimetype, size, path } = req.file;
-  const resourceType = mimeTypeToResourceType[mimetype];
+  const folderData = {
+    folderName: standardObject.folderName,
+    data: resource,
+  };
 
-  if (!resourceType) {
-    return res.status(400).json({
-      message: 'Unsupported file type. Allowed types: JPEG, PNG, PDF, TXT.',
-    });
-  }
-
-  // Save the resource to the database
-  const result = await resourceServices.createResourcesIntoDb({
-    name: originalname,
-    type: resourceType,
-    size,
-    path,
-  });
+  const result = await resourceServices.createResourcesIntoDb(folderData);
 
   sendResponse(res, {
-    statusCode: httpStatus.OK,
     success: true,
-    message: 'Resource uploaded successfully!',
+    statusCode: httpStatus.CREATED,
+    message: 'folder created successfully',
     data: result,
   });
 });
