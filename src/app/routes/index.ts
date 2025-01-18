@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { userRouter } from '../modules/user/user.route';
 import { otpRouter } from '../modules/OTP/Otp.route';
+import { resourcesRouter } from '../modules/resource/resource.route';
 const router = Router();
 const moduleRoutes = [
   {
@@ -10,6 +11,11 @@ const moduleRoutes = [
   {
     path: '/otp',
     route: otpRouter,
+  },
+
+  {
+    path: '/resources/stats',
+    route: resourcesRouter,
   },
 ];
 
